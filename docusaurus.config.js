@@ -10,7 +10,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 const config = {
   title: 'IPUT-Kernel',
   tagline: 'IPUT-Kernel開発者用ドキュメント',
-  favicon: '/img/CodeCogsEqn.png',
+  favicon: 'img/en2.png',
 
   // Set the production url of your site here
   url: 'https://docs.iput-kernel.com',
@@ -66,8 +66,8 @@ const config = {
         title: 'IPUT-Kernel',
         logo: {
           alt: 'My Site Logo',
-          src: 'img/CodeCogsEqn.png',
-          srcDark: 'img/black-psi.png',
+          src: 'img/en2.png',
+          srcDark: 'img/en1.png',
         },
         items: [
           {
@@ -84,35 +84,7 @@ const config = {
           },
         ],
       },
-      // footer: {
-      //   style: 'dark',
-      //   links: [
-      //     {
-      //       title: 'Docs',
-      //       items: [
-      //         {
-      //           label: 'ドキュメント',
-      //           to: '/',
-      //         },
-      //       ],
-      //     },
 
-      //     {
-      //       title: 'More',
-      //       items: [
-      //         {
-      //           label: 'Blog',
-      //           to: '/blog',
-      //         },
-      //         {
-      //           label: 'GitHub',
-      //           href: 'https://github.com/IPUT-Kernel',
-      //         },
-      //       ],
-      //     },
-      //   ],
-      //   copyright: `Copyright © ${new Date().getFullYear()} IPUT-Kernel-Documents, Inc. Built with victAzul.`,
-      // },
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
