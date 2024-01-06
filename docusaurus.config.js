@@ -10,7 +10,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 const config = {
   title: 'IPUT-Kernel',
   tagline: 'IPUT-Kernel開発者用ドキュメント',
-  favicon: 'img/en2.png',
+  favicon: 'img/new_favicon.png',
 
   // Set the production url of your site here
   url: 'https://docs.iput-kernel.com',
@@ -66,8 +66,8 @@ const config = {
         title: 'IPUT-Kernel',
         logo: {
           alt: 'My Site Logo',
-          src: 'img/en2.png',
-          srcDark: 'img/en1.png',
+          src: 'img/new_logo.png',
+          srcDark: 'img/dark_new_logo.png',
         },
         items: [
           {
