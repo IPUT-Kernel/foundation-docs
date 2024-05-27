@@ -62,12 +62,15 @@ entity Subject as "Subject\n科目"{
     name : VARCHAR(20) "科目名"
     syllabus : VARCHAR(500) "シラバス"
     credit : SMALLINT "単位数"
+    grade : SMALLINT "学年"
+    term : VARCHAR(2) "時期(前期または後期)"
 }
 
 entity Teacher as "Teacher\n教員"{
     id<<PK>> : UUID "教員ID"
     --
-    name : VARCHAR(20) "教員名"
+    realNameFirst : VARCHAR(15) "名前"
+    realNameLast : VARCHAR(15)  "苗字"
 }
 
 entity TeacherSubject as "TeacherSubject\n教員科目中間テーブル"{
