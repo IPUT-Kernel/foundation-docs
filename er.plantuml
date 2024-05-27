@@ -1,0 +1,221 @@
+@startuml table
+
+left to right direction
+
+' hide the spot
+' hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+skinparam shadowing false
+' ' hide the spot
+' hide circle
+
+' ' avoid problems with angled crows feet
+' skinparam linetype ortho
+
+entity User as "User\nユーザ"{
+    id<<PK>> : UUID "ユーザID"
+    --
+    authId<<FK>> : UUID "認証ID"
+    name : VARCHAR(20) "ユーザネーム"
+    email : VARCHAR(100) "Emailアドレス"
+    classId<<FK>> : UUID "クラスID"
+    extraLectureId<<FK>> : UUID "例外科目ID"
+    inChargeId<<FK>> : UUID "担任クラスID"
+}
+
+entity Auth as "Auth\n認証"{
+    id<<PK>> : UUID "認証ID"
+    --
+    userId<<FK>> : UUID "ユーザID"
+    credLevel : SMALLINT "認証レベル"
+    passwordHash : VARCHAR(60) "ハッシュ化されたパスワード"
+    secretKey : VARCHAR(64) "秘密鍵"
+    verifiedAt : TIMESTAMP "認証完了日付+時刻"
+    confirmToken : VARCHAR(32) "トークン"
+}
+
+entity Class as "Class\nクラス"{
+    id<<PK>> : UUID "クラスID"
+    --
+    grade : SMALLINT "学年"
+    department : VARCHAR(2) "学科"
+    course : VARCHAR(4) "コース"
+    studentsCount : SMALLINT "クラス生徒数"
+    className : VARCHAR(1) "クラス名"
+}
+
+entity Timetable as "Timetable\n時間割"{
+    id : UUID "時間割ID"
+    --
+    dayOfWeek : VARCHAR(1) "曜日"
+    period : SMALLINT "時限"
+    starttime : TIME "開始時間"
+    endtime : TIME "終了時間"
+}
+
+
+entity Subject as "Subject\n科目"{
+    id<<PK>> : UUID "科目ID"
+    --
+    name : VARCHAR(20) "科目名"
+    syllabus : VARCHAR(500) "シラバス"
+    credit : SMALLINT "単位数"
+}
+
+entity Teacher as "Teacher\n教員"{
+    id<<PK>> : UUID "教員ID"
+    --
+    name : VARCHAR(20) "教員名"
+}
+
+entity TeacherSubject as "TeacherSubject\n教員科目中間テーブル"{
+    teacherId<<PK>><<FK>> : UUID "教員ID"
+    subjectId<<PK>><<FK>> : UUID "科目ID"
+    --
+}
+
+entity TeacherExtraLecture as "TeacherExtraLecture\n教員例外講義中間テーブル"{
+    teacherId<<PK>><<FK>> : UUID "教員ID"
+    extraLectureId<<PK>><<FK>> : UUID "例外講義ID"
+    --
+}
+
+entity TeacherCommonLecture as "TeacherCommonLecture\n教員一般科目中間テーブル"{
+    teacherId<<PK>><<FK>> : UUID "教員ID"
+    commonLectureId<<PK>><<FK>> : UUID "一般講義ID"
+    --
+}
+
+entity CommonLecture as "CommonLecture\n一般講義"{
+    id<<PK>> : UUID "一般講義ID"
+    --
+    subjectId<<FK>> : UUID "科目ID"
+    timetableId<<FK>> : SMALLINT "時間割ID"
+    roomNumber<<FK>> : VARCHAR(3) "教室番号"
+}
+
+entity ClassCommonLecture as "ClassCommonLecture\nクラス一般講義中間テーブル"{
+    commonlectureId <<PK>><<FK>> "一般講義ID"
+    classId <<PK>><<FK>> "クラスID"
+    --
+}
+
+entity Room as "Room\n部屋"{
+    number<<PK>> : VARCHAR(3) "教室番号"
+    --
+    name : VARCHAR(30) "教室名"
+    seats : SMALLINT "座席数"
+    status : VARCHAR(10) "ステータス"
+}
+
+entity UserExtraLecture as "UserExtraLecture\nユーザ例外講義中間テーブル"{
+    userId<<PK>><<FK>> : UUID "ユーザID"
+    extraLectureId<<PK>><<FK>> : UUID "例外講義ID"
+    --
+}
+
+entity ExtraLecture as "ExtraLecture\n例外講義"{
+    id<<PK>> : UUID "例外講義ID"
+    --
+    subjectId<<FK>> : UUID "科目ID"
+    timetableId<<FK>> : SMALLINT "時間割ID"
+    roomNumber<<FK>> : VARCHAR(3) "教室番号"
+}
+
+entity InCharge as "InCharge\n担任クラス"{
+    id<<PK>> : UUID "担任クラスID"
+    --
+    teacherId<<FK>> : VARCHAR(20) "担任ID"
+}
+
+' entity in_charge_member as "in_charge_member\n担任クラスメンバー"{
+'     in_charge_id<<PK>><<FK>> : UUID "担任クラスID"
+'     --
+'     student_id : VARCHAR(6) "学籍番号"
+'     student_name : VARCHAR(20) "学生氏名"
+' }
+
+entity Project as "Project\nプロジェクト"{
+    id<<PK>> : UUID "プロジェクトID"
+    --
+    name : VARCHAR(50) "プロジェクト名"
+    memberNum : INTEGER "プロジェクト人数"
+    description : VARCHAR(500) "内容説明"
+    remark : VARCHAR(400) "備考欄"
+}
+
+entity ProjectUsers as "ProjectUsers\nプロジェクトユーザ中間テーブル"{
+    userId<<PK>><<FK>> : UUID "ユーザID"
+    projectId<<PK>><<FK>> : UUID "プロジェクトID"
+    --
+    role : VARCHAR(20) "役割"
+}
+
+' entity project_member as "project_member\nプロジェクトメンバー"{
+'     user_id<<PK>><<FK>> : UUID "ユーザID"
+'     project_id<<PK>><<FK>> : UUID "プロジェクトID"
+'     --
+'     role : VARCHAR(20) "役割"
+' }
+
+entity Profile as "Profile\nプロフィール"{
+    id<<PK>> : UUID "プロフィールID"
+    --
+    userId<<FK>> : UUID "ユーザID"
+    studentNumber : VARCHAR(6) "学籍番号"
+    realNameFirst : VARCHAR(15) "名前"
+    realNameLast : VARCHAR(15)  "苗字"
+    birthday : DATE "生年月日"
+    sex : VARCHAR(6) "性別"
+    phone : VARCHAR(11) "携帯電話番号"
+    motherTongue : VARCHAR(20) "母国語"
+    describe : VARCHAR(200) "内容説明"
+    city : VARCHAR(20) "出身地"
+    avatarurl : VARCHAR(100) "アバターurl"
+    coverurl : VARCHAR(100) "カバーurl"
+}
+
+User }|--|| Class
+User ||-|| Auth
+' user }|--|{ extraclass
+User ||--|| Profile
+User }o--|| InCharge
+User ||-|{ UserExtraLecture
+UserExtraLecture }|--|| ExtraLecture
+' User }o--o{ project
+' Class ||--|{ Subject
+InCharge ||--|| Teacher
+
+User ||--o{ ProjectUsers
+ProjectUsers }|--|| Project
+
+ExtraLecture }|--|| Timetable
+' subject_name }|--|{ subject
+' subject_name }|--|{ extra_subject
+CommonLecture }|--|| Timetable
+' Subject }o--|{ Teacher
+' project ||--|{ project_member
+
+CommonLecture ||-|{ TeacherCommonLecture
+TeacherCommonLecture }o--|| Teacher
+
+
+CommonLecture }o--|| Room
+ExtraLecture }o--|| Room
+' extraclass ||--|{ extra_subject
+
+
+ClassCommonLecture }|--|| CommonLecture
+Class ||--|{ ClassCommonLecture
+
+Subject ||--|{ CommonLecture
+Subject ||--|{ ExtraLecture
+ExtraLecture ||--|{ TeacherExtraLecture
+TeacherExtraLecture }o--|| Teacher
+Teacher ||-d|{ TeacherSubject
+TeacherSubject }|--d|| Subject
+
+
+@enduml
